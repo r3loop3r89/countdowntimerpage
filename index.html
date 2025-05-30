@@ -53,6 +53,7 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const targetUrl = params.get('url');
+    const cancelUrl = params.get('cancel'); // 👈 new param
 
     if (!targetUrl) {
       document.body.innerHTML = "<h2 style='color: red;'>❌ No URL provided. Add <code>?url=https://yourlink.com</code></h2>";
@@ -80,6 +81,12 @@
       clearInterval(interval);
       document.querySelector('p').textContent = "⛔ Redirect canceled.";
       document.getElementById('timer').textContent = "Canceled";
+
+      if (cancelUrl) {
+        setTimeout(() => {
+          window.location.href = cancelUrl;
+        }, 1500); // short delay before redirecting to cancel URL
+      }
     }
 
     startCountdown();
