@@ -6,46 +6,83 @@
   <title>Countdown Redirect</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background-color: #f0f0f0;
+      margin: 0;
+      background: linear-gradient(135deg, #f8f9fa, #e0e0e0);
       flex-direction: column;
+      text-align: center;
+      color: #333;
     }
+
     h1 {
-      font-size: 3rem;
+      font-size: 4rem;
+      margin: 0;
+      color: #0077cc;
+    }
+
+    p {
+      font-size: 1.25rem;
+      margin: 10px 0 30px;
+    }
+
+    button {
+      background-color: #ff4d4f;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e04345;
     }
   </style>
 </head>
 <body>
-  <h1 id="timer">60</h1>
-  <p>Redirecting in <span id="seconds">60</span> seconds...</p>
+  <h1 id="timer">15</h1>
+  <p>Redirecting in <span id="seconds">15</span> seconds...</p>
+  <button onclick="cancelRedirect()">Cancel Redirect</button>
 
   <script>
-    // Parse the URL parameter
     const params = new URLSearchParams(window.location.search);
     const targetUrl = params.get('url');
 
     if (!targetUrl) {
-      document.body.innerHTML = "<h2 style='color: red;'>❌ No URL provided. Add ?url=https://yourlink.com</h2>";
+      document.body.innerHTML = "<h2 style='color: red;'>❌ No URL provided. Add <code>?url=https://yourlink.com</code></h2>";
       throw new Error("Missing URL");
     }
 
     let seconds = 15;
-    const countdown = document.getElementById('seconds');
-    const timerDisplay = document.getElementById('timer');
+    let countdown = document.getElementById('seconds');
+    let timerDisplay = document.getElementById('timer');
+    let interval;
 
-    const interval = setInterval(() => {
-      seconds--;
-      countdown.textContent = seconds;
-      timerDisplay.textContent = seconds;
-      if (seconds <= 0) {
-        clearInterval(interval);
-        window.location.href = targetUrl;
-      }
-    }, 1000);
+    function startCountdown() {
+      interval = setInterval(() => {
+        seconds--;
+        countdown.textContent = seconds;
+        timerDisplay.textContent = seconds;
+        if (seconds <= 0) {
+          clearInterval(interval);
+          window.location.href = targetUrl;
+        }
+      }, 1000);
+    }
+
+    function cancelRedirect() {
+      clearInterval(interval);
+      document.querySelector('p').textContent = "⛔ Redirect canceled.";
+      document.getElementById('timer').textContent = "Canceled";
+    }
+
+    startCountdown();
   </script>
 </body>
 </html>
