@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Countdown Redirect</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+      flex-direction: column;
+    }
+    h1 {
+      font-size: 3rem;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="timer">60</h1>
+  <p>Redirecting in <span id="seconds">60</span> seconds...</p>
+
+  <script>
+    let seconds = 60;
+    const countdown = document.getElementById('seconds');
+    const timerDisplay = document.getElementById('timer');
+    const targetUrl = "https://example.com"; // 👉 change this to your URL
+
+    const interval = setInterval(() => {
+      seconds--;
+      countdown.textContent = seconds;
+      timerDisplay.textContent = seconds;
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = targetUrl;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
